@@ -1,0 +1,13 @@
+{$SERVER_DOMAIN}:443 {
+  log {
+    level INFO
+    output file {$LOG_PATH} {
+    roll_size 10MB
+    roll_keep 10
+    }
+  }
+  tls {$TLS_EMAIL}
+  encode gzip
+
+  reverse_proxy {$HOSTNAME_KEYCLOAK}
+}

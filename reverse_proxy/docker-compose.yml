@@ -1,0 +1,29 @@
+services:
+  caddy:
+    networks:
+      default:
+      reverse-proxy-network:
+        aliases:
+          - reverse-proxy-container
+    container_name: caddy
+    image: caddy:2
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy-config:/config
+      - ./caddy-data:/data
+    environment:
+      - SERVER_DOMAIN=$SERVER_DOMAIN
+      - TLS_EMAIL=$TLS_EMAIL
+      - LOG_PATH=$LOG_PATH
+      - SUBDIR_KEYCLOAK=$SUBDIR_KEYCLOAK
+      - HOSTNAME_KEYCLOAK=$HOSTNAME_KEYCLOAK
+      - SUBDIR_PGADMIN=$SUBDIR_PGADMIN
+      - HOSTNAME_PGADMIN=$HOSTNAME_PGADMIN
+      
+networks:
+  reverse-proxy-network:
+    external: true
