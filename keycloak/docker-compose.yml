@@ -20,27 +20,7 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - 5432:5432
-  pgadmin4:
-    networks:
-      default:
-      reverse-proxy-network:
-        aliases:
-          - pgadmin-keycloak-container
-    image: dpage/pgadmin4:latest
-    container_name: pgadmin4
-    ports:
-      - 8000:80
-    volumes:
-      - ./docker/pgadmin4:/var/lib/pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: password
-    hostname: pgadmin4
-    links:
-      - postgres
-    depends_on:
-      - postgres
-    #restart: always
+
   keycloak:
     networks:
       default:
