@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   sample-front:
@@ -12,8 +12,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - "3030:3000"
-      - "24678:24678"
+      - '3030:3000'
+      - '24678:24678'
     volumes:
       - ./:/work
     tty: true
