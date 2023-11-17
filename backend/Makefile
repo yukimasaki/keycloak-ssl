@@ -7,4 +7,4 @@ nest:
 dev:
 	docker compose exec nestjs yarn start:dev
 pg:
-	docker compose exec postgres sh
+	docker compose exec nestjs-postgres sh
