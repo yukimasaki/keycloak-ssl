@@ -1,0 +1,47 @@
+version: "3"
+
+volumes:
+  postgres_data:
+      driver: local
+
+services:
+  postgres:
+    container_name: postgres
+    networks:
+      default:
+      reverse-proxy-network:
+        aliases:
+          - postgres-container
+    image: postgres:15.3-alpine
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    tty: true
+    restart: always
+
+  nestjs:
+    container_name: nestjs
+    networks:
+      default:
+      reverse-proxy-network:
+        aliases:
+          - nestjs-container
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "3001:3000"
+      - "5555:5555"
+    volumes:
+      - ./:/work
+    tty: true
+    restart: always
+
+networks:
+  reverse-proxy-network:
+    external: true
