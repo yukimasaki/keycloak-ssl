@@ -24,7 +24,11 @@ services:
       - TLS_EMAIL_NUXT=$TLS_EMAIL_NUXT
       - LOG_PATH_NUXT=$LOG_PATH_NUXT
       - HOSTNAME_NUXT=$HOSTNAME_NUXT
-      
+      - DOMAIN_NESTJS=$DOMAIN_NESTJS
+      - TLS_EMAIL_NESTJS=$TLS_EMAIL_NESTJS
+      - LOG_PATH_NESTJS=$LOG_PATH_NESTJS
+      - HOSTNAME_NESTJS=$HOSTNAME_NESTJS
+
 networks:
   reverse-proxy-network:
     external: true

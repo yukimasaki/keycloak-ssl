@@ -28,3 +28,18 @@
 
   reverse_proxy {$HOSTNAME_NUXT}
 }
+
+# NestJS
+{$DOMAIN_NESTJS}:443 {
+  log {
+    level INFO
+    output file {$LOG_PATH_NESTJS} {
+    roll_size 10MB
+    roll_keep 10
+    }
+  }
+  tls {$TLS_EMAIL_NESTJS}
+  encode gzip
+
+  reverse_proxy {$HOSTNAME_NESTJS}
+}
