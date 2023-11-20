@@ -3795,6 +3795,11 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+nest-keycloak-connect@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/nest-keycloak-connect/-/nest-keycloak-connect-1.9.4.tgz#a7b5b6ec175dbe5ba96bd0bc6650125ed1d15a60"
+  integrity sha512-8XHTBwd80czwqZt80+Su4++ymZoWels+cv6Eg58UpxPnRkVmO+gbXpjbBQ3cUZVdYOsHB0jlITOatDTAhQsg/w==
+
 node-abort-controller@^3.0.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/node-abort-controller/-/node-abort-controller-3.1.1.tgz#a94377e964a9a37ac3976d848cb5c765833b8548"
