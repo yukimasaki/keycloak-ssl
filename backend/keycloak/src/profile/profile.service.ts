@@ -12,15 +12,15 @@ export class ProfileService {
     return `This action returns all profile`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} profile`;
+  findOne(uuid: string) {
+    return `This action returns a #${uuid} profile`;
   }
 
-  update(id: number, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
+  update(uuid: string, updateProfileDto: UpdateProfileDto) {
+    return `This action updates a #${uuid} profile`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} profile`;
+  remove(uuid: string) {
+    return `This action removes a #${uuid} profile`;
   }
 }
