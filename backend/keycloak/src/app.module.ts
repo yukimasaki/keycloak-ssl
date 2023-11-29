@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthGuard, KeycloakConnectModule, ResourceGuard, RoleGuard } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
-    UserModule,
     ConfigModule.forRoot(),
     KeycloakConnectModule.register({
       authServerUrl: process.env.KEYCLOAK_AUTH_SERVER_URL,
