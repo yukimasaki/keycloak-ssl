@@ -4,6 +4,7 @@ import { AuthGuard, KeycloakConnectModule, ResourceGuard, RoleGuard } from 'nest
 import { APP_GUARD } from '@nestjs/core';
 import { ProfileModule } from './profile/profile.module';
 import { PrismaService } from './common/prisma/prisma.service';
+import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PrismaService } from './common/prisma/prisma.service';
       secret: process.env.KEYCLOAK_SECRET,
     }),
     ProfileModule,
+    ProfilesModule,
   ],
   controllers: [],
   providers: [
