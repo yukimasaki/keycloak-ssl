@@ -19,7 +19,7 @@ export class UserController {
   @Get('/user')
   @Roles({
     roles: [
-      'user',
+      'nestjs-user',
     ],
   })
   getUser(): string {
@@ -29,7 +29,7 @@ export class UserController {
   @Get('/admin')
   @Roles({
     roles: [
-      'admin',
+      'nestjs-admin',
     ],
   })
   getAdmin(): string {
@@ -37,6 +37,12 @@ export class UserController {
   }
 
   @Get('/all')
+  @Roles({
+    roles: [
+      'nestjs-admin',
+      'nestjs-user',
+    ],
+  })
   getAll(): string {
     return `${this.HELLO} from all`;
   }
