@@ -5,9 +5,11 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Public } from 'nest-keycloak-connect';
 import { ApiProduces, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Profile } from './entities/profile.entity';
+import { SummarizeApiResponse } from 'src/common/decorators/summarize-api-response.decorator';
 
 @Controller('profiles')
 @ApiTags('/profiles')
+@SummarizeApiResponse()
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) { }
 
