@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthGuard, KeycloakConnectModule, ResourceGuard, RoleGuard } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
 import { ProfileModule } from './profile/profile.module';
+import { PrismaService } from './common/prisma/prisma.service';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ProfileModule } from './profile/profile.module';
       provide: APP_GUARD,
       useClass: RoleGuard,
     },
+    PrismaService,
   ],
 })
 export class AppModule { }
