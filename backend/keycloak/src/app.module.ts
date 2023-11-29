@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthGuard, KeycloakConnectModule, ResourceGuard, RoleGuard } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { APP_GUARD } from '@nestjs/core';
       clientId: process.env.KEYCLOAK_CLIENT_ID,
       secret: process.env.KEYCLOAK_SECRET,
     }),
+    ProfileModule,
   ],
   controllers: [],
   providers: [
