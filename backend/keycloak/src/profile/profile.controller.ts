@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { Public } from 'nest-keycloak-connect';
 
 @Controller('profile')
 export class ProfileController {
@@ -18,6 +19,7 @@ export class ProfileController {
   }
 
   @Get(':uuid')
+  @Public()
   findOne(@Param('uuid') uuid: string) {
     return this.profileService.findOne(uuid);
   }
