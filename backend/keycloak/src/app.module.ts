@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthGuard, KeycloakConnectModule, ResourceGuard, RoleGuard } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
-import { ProfileModule } from './profile/profile.module';
 import { PrismaService } from './common/prisma/prisma.service';
 import { ProfilesModule } from './profiles/profiles.module';
 
@@ -15,7 +14,6 @@ import { ProfilesModule } from './profiles/profiles.module';
       clientId: process.env.KEYCLOAK_CLIENT_ID,
       secret: process.env.KEYCLOAK_SECRET,
     }),
-    ProfileModule,
     ProfilesModule,
   ],
   controllers: [],
