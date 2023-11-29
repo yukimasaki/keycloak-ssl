@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { Profile } from './entities/profile.entity';
 
 @Injectable()
 export class ProfileService {
@@ -18,11 +19,15 @@ export class ProfileService {
   }
 
   async findOne(uuid: string) {
-    return await this.prisma.profile.findUnique({
+    const profile: Profile = await this.prisma.profile.findUnique({
       where: {
         uuid,
       }
     });
+
+    if (!profile) throw new NotFoundException;
+
+    return profile;
   }
 
   update(uuid: string, updateProfileDto: UpdateProfileDto) {
