@@ -14,7 +14,17 @@ export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) { }
 
   @Post()
-  create(@Body() createProfileDto: CreateProfileDto) {
+  @Public()
+  @ApiProduces('application/json; charset=utf-8')
+  @ApiOperation({ summary: '単体作成API' })
+  @ApiResponse({
+    status: 201,
+    description: '登録済みのプロフィール情報を返却',
+    type: Profile,
+  })
+  create(
+    @Body() createProfileDto: CreateProfileDto,
+  ) {
     return this.profilesService.create(createProfileDto);
   }
 

@@ -10,7 +10,12 @@ export class ProfilesService {
     private readonly prisma: PrismaService,
   ) { }
 
-  create(createProfileDto: CreateProfileDto) {
+  async create(
+    createProfileDto: CreateProfileDto,
+  ) {
+    const profile: Profile = await this.prisma.profile.create({
+      data: createProfileDto,
+    });
     return 'This action adds a new profile';
   }
 
