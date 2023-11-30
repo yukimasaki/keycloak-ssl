@@ -1,22 +1,63 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profile.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
+import { AccessToken } from 'src/common/interfaces/access-token.interface';
 
 @Injectable()
 export class ProfilesService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
   ) { }
+
+  _getBearerToken(
+    authorizationHeader: string,
+  ): string {
+    return authorizationHeader.replace('Bearer ', '');
+  }
+
+  _decodeJwt(
+    bearerToken: string,
+  ): AccessToken {
+    const accessToken: string = this.jwtService.decode(bearerToken);
+    return JSON.parse(JSON.stringify(accessToken));
+  }
+
+  async findMyProfile(
+    bearerToken: string,
+  ) {
+    const accessToken: AccessToken = this._decodeJwt(bearerToken);
+    if (!accessToken) throw new BadRequestException;
+
+    const keycloakUserId: string = accessToken['sub'];
+    console.log(keycloakUserId);
+
+    const profile: Profile = await this.prisma.profile.findUnique({
+      where: {
+        uuid: keycloakUserId,
+      },
+    });
+
+    if (!profile) throw new NotFoundException;
+
+    return profile;
+  }
 
   async create(
     createProfileDto: CreateProfileDto,
   ) {
-    const profile: Profile = await this.prisma.profile.create({
-      data: createProfileDto,
-    });
-    return 'This action adds a new profile';
+    try {
+      const profile: Profile = await this.prisma.profile.create({
+        data: createProfileDto,
+      });
+      return profile;
+    } catch (error) {
+      throw new ConflictException;
+    }
   }
 
   findAll() {

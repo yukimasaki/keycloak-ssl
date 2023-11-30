@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -12,6 +12,22 @@ import { SummarizeApiResponse } from 'src/common/decorators/summarize-api-respon
 @SummarizeApiResponse()
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) { }
+
+  @Get('/me')
+  @Public()
+  @ApiProduces('application/json; charset=utf-8')
+  @ApiOperation({ summary: '単体取得API (自分)' })
+  @ApiResponse({
+    status: 200,
+    description: '自分のプロフィール情報を返却',
+    type: Profile,
+  })
+  findMyProfile(
+    @Request() req,
+  ) {
+    const bearerToken: string = this.profilesService._getBearerToken(req.headers.authorization);
+    return this.profilesService.findMyProfile(bearerToken);
+  }
 
   @Post()
   @Public()
@@ -36,7 +52,7 @@ export class ProfilesController {
   @Get(':uuid')
   @Public()
   @ApiProduces('application/json; charset=utf-8')
-  @ApiOperation({ summary: '単体取得API' })
+  @ApiOperation({ summary: '単体取得API (UUID指定)' })
   @ApiParam({
     name: 'uuid',
     type: String,
