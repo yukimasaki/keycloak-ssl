@@ -7,6 +7,7 @@ export default defineNuxtConfig({
       authUrl: process.env.NUXT_PUBLIC_AUTH_URL,
       authRealm: process.env.NUXT_PUBLIC_AUTH_REALM,
       authClientId: process.env.NUXT_PUBLIC_AUTH_CLIENT_ID,
+      apiUrl: process.env.NUXT_PUBLIC_API_URL,
     },
   },
 })
