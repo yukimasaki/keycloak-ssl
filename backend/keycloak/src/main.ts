@@ -10,6 +10,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  // CORS設定
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN,
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    credentials: true,
+  });
+
   await app.listen(3000);
 }
 bootstrap();
