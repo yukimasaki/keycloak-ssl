@@ -1,5 +1,9 @@
 <template>
   <div>
-    Index Page
+    {{ profile }}
   </div>
 </template>
+
+<script setup lang="ts">
+const profile = useState('profile');
+</script>
