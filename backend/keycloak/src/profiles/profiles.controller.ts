@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, BadRequestException } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -25,6 +25,9 @@ export class ProfilesController {
   findMyProfile(
     @Request() req,
   ) {
+    const authorizationHeader: string = req.headers.authorization;
+    if (!authorizationHeader) throw new BadRequestException;
+
     const bearerToken: string = this.profilesService._getBearerToken(req.headers.authorization);
     return this.profilesService.findMyProfile(bearerToken);
   }
