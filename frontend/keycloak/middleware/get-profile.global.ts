@@ -3,8 +3,18 @@ export default defineNuxtRouteMiddleware(async () => {
   const apiUrl: string = runtimeConfig.public.apiUrl;
   if (!apiUrl) throw new Error('API URLが設定されていません');
 
-  // access_tokenからsub(KeycloakのユーザーID)を取得
+  // フロントエンド側からKeycloakのaccess_tokenを取得するにはどうしたらいい？
+  const authorizationHeader = useRequestHeaders(['authorization']);
 
   // データベースからプロフィール情報を取得
-  const profile = await useFetch(`${apiUrl}/profile/`);
+  const { data: profile } = await useFetch(`${apiUrl}/profiles/me`, {
+    // headers: {
+    //   Authorization: 'Bearer '
+    // },
+    headers: authorizationHeader,
+  });
+
+  if (!profile) return navigateTo('/setProfile');
+
+  useState('profile', () => profile);
 });
