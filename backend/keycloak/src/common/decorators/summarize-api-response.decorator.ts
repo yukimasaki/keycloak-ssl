@@ -8,7 +8,7 @@ import {
   ApiUnauthorizedResponse,
   ApiInternalServerErrorResponse
 } from '@nestjs/swagger'
-import { ErrorResponse } from '../interfaces/error-response.intaerface'
+import { ErrorResponse } from '../interfaces/error-response.interface'
 
 export function SummarizeApiResponse() {
   return applyDecorators(
