@@ -3,15 +3,18 @@ export default defineNuxtRouteMiddleware(async () => {
   const apiUrl: string = runtimeConfig.public.apiUrl;
   if (!apiUrl) throw new Error('API URLが設定されていません');
 
-  // Keycloakの型定義をするにはどうしたらいい？
-  const keycloak = useNuxtApp().$keycloak;
+  const keycloak: any = useNuxtApp().$keycloak;
+  console.log(`keycloak:`);
   console.log(keycloak);
-
-  // const authorizationHeader = keycloak.token
+  // undefinedになってしまう
+  console.log(`keycloak.token:`);
+  console.log(keycloak.token);
 
   // データベースからプロフィール情報を取得
   const { data: profile } = await useFetch(`${apiUrl}/profiles/me`, {
-    // headers: authorizationHeader,
+    headers: {
+      Authorization: `Bearer ${keycloak.token}`,
+    },
   });
 
   if (!profile) return navigateTo('/setProfile');
