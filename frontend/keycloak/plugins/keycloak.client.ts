@@ -1,6 +1,6 @@
 import Keycloak from "keycloak-js";
 
-export default defineNuxtPlugin((app) => {
+export default defineNuxtPlugin(async (app) => {
   const runtimeConfig = useRuntimeConfig();
   const keycloak = new Keycloak({
     url: runtimeConfig.public.authUrl,
@@ -8,10 +8,15 @@ export default defineNuxtPlugin((app) => {
     clientId: runtimeConfig.public.authClientId,
   });
 
-  keycloak.init({
+  await keycloak.init({
     onLoad: "login-required",
   });
 
   keycloak.updateToken(2000);
-  app.$keycloak = keycloak;
+
+  return {
+    provide: {
+      keycloak,
+    }
+  }
 });
