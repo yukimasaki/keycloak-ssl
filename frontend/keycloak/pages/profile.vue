@@ -1,9 +1,26 @@
 <template>
-  <div>
-    <input v-model="uuid" type="text" readonly>
-  </div>
-  <div>
-    <input v-model="userName" type="text">
+  <div class="row q-pa-md justify-center q-gutter-md">
+    <q-card class="col-12 col-md-6">
+      <q-card-section>
+        <div class="text-h6">
+          プロフィール
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <q-input v-model="uuid" label="Keycloak ID" readonly />
+        <q-input v-model="userName" label="表示名" />
+      </q-card-section>
+
+      <q-card-actions>
+        <q-btn class="col-4">
+          キャンセル
+        </q-btn>
+        <q-btn class="col-4" @click="submit()">
+          保存
+        </q-btn>
+      </q-card-actions>
+    </q-card>
   </div>
 </template>
 
@@ -25,5 +42,18 @@ if (token) {
   if (profile.value) {
     userName.value = profile.value.userName;
   }
+}
+
+const submit = async () => {
+  const runtimeConfig = useRuntimeConfig();
+  const apiUrl: string = runtimeConfig.public.apiUrl;
+
+  return await useFetch(`${apiUrl}/profiles`, {
+    method: 'POST',
+    body: {
+      uuid: uuid.value,
+      userName: userName.value,
+    },
+  });
 }
 </script>
