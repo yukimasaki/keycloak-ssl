@@ -10,4 +10,7 @@ export default defineNuxtConfig({
       apiUrl: process.env.NUXT_PUBLIC_API_URL,
     },
   },
+  modules: [
+    'nuxt-quasar-ui',
+  ],
 })
