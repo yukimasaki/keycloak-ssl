@@ -1,16 +1,16 @@
 <template>
   <div class="row q-pa-md justify-center q-gutter-md">
     <q-card class="col-12 col-md-6">
-      <q-card-section>
-        <div class="text-h6">
+      <q-card-section class="bg-light-blue-4">
+        <div class="text-h6 text-white">
           プロフィール
         </div>
       </q-card-section>
 
       <q-card-section>
-        <q-input v-model="uuid" label="Keycloak ID" readonly />
-        <q-input v-model="email" label="メールアドレス" readonly />
-        <q-input v-model="userName" label="表示名" />
+        <q-input class="q-pb-sm" v-model="uuid" label="Keycloak ID" readonly />
+        <q-input class="q-pb-sm" v-model="email" label="メールアドレス" readonly />
+        <q-input class="q-pb-sm" v-model="userName" label="表示名" />
       </q-card-section>
 
       <q-card-actions>
