@@ -12,7 +12,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     },
   });
 
-  if (!profile && to.path !== '/profile') return navigateTo('/profile');
+  if (!profile.value && to.path !== '/profile') return navigateTo('/profile');
 
   useState('profile', () => profile);
 });
