@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-center q-gutter-md">
-    <q-list bordered class="col-12 col-md-4">
+    <q-list bordered class="col-12 col-lg-4">
       <q-item clickable v-ripple v-for="page in pages" :key="page.displayName" :to="page.link">
         <q-item-section avatar>
           <q-icon :color="page.iconColor" :name="page.iconName" size="md" />
