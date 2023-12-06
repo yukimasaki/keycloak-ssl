@@ -9,6 +9,7 @@
 
       <q-card-section>
         <q-input v-model="uuid" label="Keycloak ID" readonly />
+        <q-input v-model="email" label="メールアドレス" readonly />
         <q-input v-model="userName" label="表示名" />
       </q-card-section>
 
@@ -30,6 +31,7 @@ import type { IAccessToken } from '@@/interfaces/IAccessToken';
 import { jwtDecode } from 'jwt-decode';
 
 const uuid: Ref<string | null> = ref(null);
+const email: Ref<string | null> = ref(null);
 const userName: Ref<string | null> = ref(null);
 
 // uuidをtokenから取得
@@ -37,6 +39,7 @@ const token: string | undefined = useNuxtApp().$keycloak.token;
 if (token) {
   const parsedToken: IAccessToken = jwtDecode(token);
   uuid.value = parsedToken.sub;
+  email.value = parsedToken.email;
 
   const profile: Ref<IProfile> = useState('profile');
   if (profile.value) {
@@ -56,4 +59,7 @@ const submit = async () => {
     },
   });
 }
+
+console.log(token);
+
 </script>
