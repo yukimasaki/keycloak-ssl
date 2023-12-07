@@ -20,5 +20,7 @@ export class BooksController {
     description: '全ての書籍情報を返却する',
     type: Book,
   })
-  findAll() { }
+  findAll() {
+    return this.booksService.findAll();
+  }
 }
