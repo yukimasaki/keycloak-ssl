@@ -1,9 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { ApiOperation, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SummarizeApiResponse } from 'src/common/decorators/summarize-api-response.decorator';
 import { Public, Roles } from 'nest-keycloak-connect';
 import { Book } from './entities/book.entity';
+import { CreateBookDto } from './dto/create-book.dto';
 
 @Controller('books')
 @ApiTags('/books')
@@ -74,5 +75,20 @@ export class BooksController {
   })
   findAllFromUser() {
     return this.booksService.findAll();
+  }
+
+  @Post()
+  @Public()
+  @ApiProduces('application/json; charset=utf-8')
+  @ApiOperation({ summary: '単体作成API (パブリックアクセス)' })
+  @ApiResponse({
+    status: 201,
+    description: '作成した書籍情報を返却する',
+    type: Book,
+  })
+  create(
+    @Body() createBookDto: CreateBookDto,
+  ) {
+    return this.booksService.create(createBookDto);
   }
 }
