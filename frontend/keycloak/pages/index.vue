@@ -26,13 +26,13 @@ interface IPage {
 }
 
 const pages: IPage[] = [
-  {
-    displayName: '/welcome',
-    link: '/welcome',
-    description: 'Public Access',
-    iconName: 'public',
-    iconColor: 'light-green-8',
-  },
+  // {
+  //   displayName: '/welcome',
+  //   link: '/welcome',
+  //   description: 'Public Access',
+  //   iconName: 'public',
+  //   iconColor: 'light-green-8',
+  // },
   {
     displayName: '/',
     link: '/',
