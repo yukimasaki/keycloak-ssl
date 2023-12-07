@@ -58,4 +58,21 @@ export class BooksController {
   findAllFromAdmin() {
     return this.booksService.findAll();
   }
+
+  @Get('/user')
+  @Roles({
+    roles: [
+      'user',
+    ]
+  })
+  @ApiProduces('application/json; charset=utf-8')
+  @ApiOperation({ summary: '単体取得API (userロール)' })
+  @ApiResponse({
+    status: 200,
+    description: '全ての書籍情報を返却する',
+    type: Book,
+  })
+  findAllFromUser() {
+    return this.booksService.findAll();
+  }
 }
