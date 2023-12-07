@@ -1,27 +1,28 @@
 <template>
-  <div class="row justify-center q-gutter-md">
-    <div class="col">
+  <div class="row justify-center">
+    <div class="col-12 col-lg-4">
       <div class="text-h6 q-pb-md">
         Your Roles
         <p class="text-body1 q-ma-none" v-for="role in roles">
           [ {{ role }} ]
         </p>
       </div>
-      <q-list bordered class="col-12 col-lg-4">
-        <q-item clickable v-ripple v-for="response in responses" :key="response.endpoint">
-          <q-item-section avatar>
-            <q-icon :color="response.iconColor" :name="response.iconName" size="md" />
-          </q-item-section>
-          <q-item-section>
-            {{ response.endpoint }}
-          </q-item-section>
-          <q-item-section>
-            {{ response.statusCode }}
-          </q-item-section>
-        </q-item>
-      </q-list>
     </div>
-
+  </div>
+  <div class="row justify-center">
+    <q-list bordered class="col-12 col-lg-4">
+      <q-item clickable v-ripple v-for="response in responses" :key="response.endpoint">
+        <q-item-section avatar>
+          <q-icon :color="response.iconColor" :name="response.iconName" size="md" />
+        </q-item-section>
+        <q-item-section>
+          {{ response.endpoint }}
+        </q-item-section>
+        <q-item-section>
+          {{ response.statusCode }}
+        </q-item-section>
+      </q-item>
+    </q-list>
   </div>
 </template>
 
