@@ -4,7 +4,6 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profile.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
 import { AccessToken } from 'src/common/interfaces/access-token.interface';
 
 @Injectable()
@@ -13,12 +12,6 @@ export class ProfilesService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) { }
-
-  _getBearerToken(
-    authorizationHeader: string,
-  ): string {
-    return authorizationHeader.replace('Bearer ', '');
-  }
 
   _decodeJwt(
     bearerToken: string,

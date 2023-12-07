@@ -6,6 +6,7 @@ import { Public } from 'nest-keycloak-connect';
 import { ApiProduces, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Profile } from './entities/profile.entity';
 import { SummarizeApiResponse } from 'src/common/decorators/summarize-api-response.decorator';
+import { getBearerToken } from 'src/common/utils/jwt.util';
 
 @Controller('profiles')
 @ApiTags('/profiles')
@@ -28,7 +29,7 @@ export class ProfilesController {
     const authorizationHeader: string = req.headers.authorization;
     if (!authorizationHeader) throw new BadRequestException;
 
-    const bearerToken: string = this.profilesService._getBearerToken(req.headers.authorization);
+    const bearerToken: string = getBearerToken(authorizationHeader);
     return this.profilesService.findMyProfile(bearerToken);
   }
 
