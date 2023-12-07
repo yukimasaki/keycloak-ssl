@@ -1,5 +1,14 @@
 <template>
   <div class="row justify-center q-gutter-md">
+    <div class="col">
+      <div class="text-h6">
+        Your Roles
+        <p class="text-body1 q-ma-none" v-for="role in roles">
+          [ {{ role }} ]
+        </p>
+      </div>
+    </div>
+
     <q-list bordered class="col-12 col-lg-4">
       <q-item clickable v-ripple v-for="response in responses" :key="response.endpoint">
         <q-item-section avatar>
@@ -17,7 +26,9 @@
 </template>
 
 <script setup lang="ts">
+import { jwtDecode } from 'jwt-decode';
 import type { RuntimeConfig } from 'nuxt/schema';
+import type { IAccessToken } from '@@/interfaces/IAccessToken';
 
 interface IResponse {
   endpoint: string;
@@ -53,4 +64,13 @@ const responses = await Promise.all(endpoints.map(async (endpoint) => {
   }
   return response;
 }));
+
+const parsedToken: Ref<IAccessToken | null> = ref(null);
+if (token) {
+  parsedToken.value = jwtDecode(token);
+}
+const roles: Ref<string[] | null> = ref(null);
+if (parsedToken.value) {
+  roles.value = parsedToken.value.resource_access['nestjs-sample'].roles;
+}
 </script>
