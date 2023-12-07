@@ -12,6 +12,17 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     },
   });
 
+  // /profileに強制遷移するのを除外するページ
+  const excludes: string[] = [
+    '/test',
+    '/welcome',
+  ];
+  if (excludes.includes(to.path)) return;
+
+  // アクセストークンが存在しない場合はログインが必要
+  if (!token) useNuxtApp().$keycloak.login();
+
+  // DBにプロフィール情報が存在しない場合はプロフィールの設定が必要
   if (!profile.value && to.path !== '/profile') return navigateTo('/profile');
 
   useState('profile', () => profile);
