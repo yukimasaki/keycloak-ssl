@@ -33,25 +33,24 @@ const endpoints: string[] = [
   '/books/user',
 ];
 
+const runtimeConfig: RuntimeConfig = useRuntimeConfig();
+const apiUlr: string = runtimeConfig.public.apiUrl;
+const token: string | undefined = useNuxtApp().$keycloak.token;
+
 const responses = await Promise.all(endpoints.map(async (endpoint) => {
-  const runtimeConfig: RuntimeConfig = useRuntimeConfig();
-  const apiUlr: string = runtimeConfig.public.apiUrl;
-  const token: string | undefined = useNuxtApp().$keycloak.token;
-  const { error } = await useFetch(`${apiUlr}${endpoint}`, {
+  const { status, error } = await useFetch(`${apiUlr}${endpoint}`, {
     method: 'GET',
     headers: {
       authorization: `Bearer ${token}`,
     },
   });
-  const statusCode: number | undefined = error.value?.statusCode;
-
+  const statusCode: number | undefined = status.value === 'success' ? 200 : error.value?.statusCode;
   const response: IResponse = {
     endpoint,
     statusCode,
     iconName: statusCode === 200 || statusCode === 404 ? 'done' : 'block',
     iconColor: statusCode === 200 || statusCode === 404 ? 'green-6' : 'red-6',
   }
-
   return response;
 }));
 </script>
