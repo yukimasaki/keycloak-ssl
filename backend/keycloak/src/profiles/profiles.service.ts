@@ -3,27 +3,20 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profile.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { JwtService } from '@nestjs/jwt';
 import { AccessToken } from 'src/common/interfaces/access-token.interface';
+import { UtilityService } from 'src/common/services/utility.service';
 
 @Injectable()
 export class ProfilesService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly jwtService: JwtService,
+    private readonly utilityService: UtilityService,
   ) { }
-
-  _decodeJwt(
-    bearerToken: string,
-  ): AccessToken {
-    const accessToken: string = this.jwtService.decode(bearerToken);
-    return JSON.parse(JSON.stringify(accessToken));
-  }
 
   async findMyProfile(
     bearerToken: string,
   ) {
-    const accessToken: AccessToken = this._decodeJwt(bearerToken);
+    const accessToken: AccessToken = this.utilityService.decodeJwt(bearerToken);
     if (!accessToken) throw new BadRequestException;
 
     const keycloakUserId: string = accessToken['sub'];
