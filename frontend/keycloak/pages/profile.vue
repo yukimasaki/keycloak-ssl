@@ -60,6 +60,4 @@ const submit = async () => {
   });
 }
 
-console.log(token);
-
 </script>
