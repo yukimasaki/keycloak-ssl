@@ -15,3 +15,8 @@ model Profile {
   uuid     String @unique
   userName String
 }
+
+model Book {
+  id    Int    @id @default(autoincrement())
+  title String
+}
