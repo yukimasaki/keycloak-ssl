@@ -54,19 +54,19 @@ const pages: IPage[] = [
     iconName: 'groups',
     iconColor: 'light-blue-8',
   },
-  {
-    displayName: '/user',
-    link: '/user',
-    description: 'User Role Only',
-    iconName: 'person',
-    iconColor: 'amber-8',
-  },
-  {
-    displayName: '/admin',
-    link: '/admin',
-    description: 'Admin Role Only',
-    iconName: 'admin_panel_settings',
-    iconColor: 'purple-8',
-  },
+  // {
+  //   displayName: '/user',
+  //   link: '/user',
+  //   description: 'User Role Only',
+  //   iconName: 'person',
+  //   iconColor: 'amber-8',
+  // },
+  // {
+  //   displayName: '/admin',
+  //   link: '/admin',
+  //   description: 'Admin Role Only',
+  //   iconName: 'admin_panel_settings',
+  //   iconColor: 'purple-8',
+  // },
 ];
 </script>
