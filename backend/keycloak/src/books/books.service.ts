@@ -8,8 +8,9 @@ export class BooksService {
   constructor(
     private readonly prisma: PrismaService,
   ) { }
+
   async findAll() {
-    const books: Book[] = await this.prisma.book.findMany()
+    const books: Book[] = await this.prisma.book.findMany();
     if (books.length === 0) throw new NotFoundException;
     return books;
   }
