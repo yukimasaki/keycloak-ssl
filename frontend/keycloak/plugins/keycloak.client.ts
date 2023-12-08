@@ -9,7 +9,7 @@ export default defineNuxtPlugin(async (app) => {
   });
 
   await keycloak.init({
-    onLoad: "check-sso",
+    onLoad: "login-required",
   });
 
   keycloak.updateToken(2000);
