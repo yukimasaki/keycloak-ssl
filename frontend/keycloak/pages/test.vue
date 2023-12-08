@@ -49,11 +49,14 @@ const runtimeConfig: RuntimeConfig = useRuntimeConfig();
 const apiUlr: string = runtimeConfig.public.apiUrl;
 const token: string | undefined = useNuxtApp().$keycloak.token;
 
+// issue: iPhone版Chromeだと非ログイン時に/testへアクセスすると、URLに`#error=login_required`が追加されてしまう
+// /welcomeでは上記現象は起きない
+
 const responses = await Promise.all(endpoints.map(async (endpoint) => {
   const { status, error } = await useFetch(`${apiUlr}${endpoint}`, {
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token ? token : ''}`,
     },
   });
   const statusCode: number | undefined = status.value === 'success' ? 200 : error.value?.statusCode;
