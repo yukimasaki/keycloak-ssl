@@ -62,7 +62,6 @@ services:
       PROXY_ADDRESS_FORWARDING: 'true'
     command:
       - 'start'
-      - '--auto-build'
     ports:
       - '8080:8080'
     depends_on:
