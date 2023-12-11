@@ -14,7 +14,9 @@ const navigateToIndex = () => {
 }
 
 const login = async () => {
-  return await useNuxtApp().$keycloak.login();
+  return await useNuxtApp().$keycloak.login({
+    redirectUri: window.origin,
+  });
 }
 
 const logout = async () => {
