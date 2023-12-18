@@ -12,5 +12,15 @@ export default defineNuxtConfig({
   },
   modules: [
     'nuxt-quasar-ui',
+    '@sidebase/nuxt-auth',
   ],
+  auth: {
+    isEnabled: true,
+    provider: {
+      type: 'authjs'
+    },
+    globalAppMiddleWare: {
+      isEnabled: true,
+    },
+  },
 })
