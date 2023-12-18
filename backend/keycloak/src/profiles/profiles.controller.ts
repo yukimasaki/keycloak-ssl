@@ -18,7 +18,6 @@ export class ProfilesController {
   ) { }
 
   @Get('/me')
-  @Public()
   @ApiProduces('application/json; charset=utf-8')
   @ApiOperation({ summary: '単体取得API (自分)' })
   @ApiResponse({
