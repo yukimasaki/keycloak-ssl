@@ -55,6 +55,13 @@ const responses = await Promise.all(endpoints.map(async (endpoint) => {
     headers: {
       authorization: `Bearer ${token ? token : ''}`,
     },
+    // issue: APIリクエスト前にupdateTokenを実行しているが更新処理が間に合わないのか401が返ってしまう
+    // https://www.keycloak.org/docs/latest/securing_apps/index.html#using-the-adapter
+    async onRequest() {
+      console.log(`リクエストを送信！`);
+      const keycloak = useNuxtApp().$keycloak;
+      await keycloak.updateToken(-1);
+    },
   });
   const statusCode: number | undefined = status.value === 'success' ? 200 : error.value?.statusCode;
   const response: IResponse = {
