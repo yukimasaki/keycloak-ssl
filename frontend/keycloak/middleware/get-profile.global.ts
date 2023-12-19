@@ -1,3 +1,5 @@
+import type { IProfile } from "~/interfaces/IProfile";
+
 export default defineNuxtRouteMiddleware(async (to, from) => {
   // /profileに強制遷移するのを除外するページ
   const excludes: string[] = [
@@ -15,14 +17,18 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // アクセストークンが存在しない場合はログインが必要
   if (!token) useNuxtApp().$keycloak.login();
 
-  // データベースからプロフィール情報を取得
-  const { data: profile } = await useFetch(`${apiUrl}/profiles/me`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  // ストアからプロフィール情報を取得
+  const storedProfile = useState('profile');
 
-  if (!profile.value && to.path !== '/profile') return navigateTo('/profile');
+  // ストアに存在しない場合は、データベースからプロフィール情報を取得
+  if (!storedProfile.value) {
+    const { data: dbProfile } = await useFetch(`${apiUrl}/profiles/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  useState('profile', () => profile);
+    if (!dbProfile.value && to.path !== '/profile') return navigateTo('/profile');
+    useState('profile', () => dbProfile);
+  }
 });
