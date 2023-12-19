@@ -17,7 +17,7 @@ const navigateToIndex = () => {
 }
 
 const login = async () => {
-  return await signIn('');
+  return await signIn('keycloak');
 }
 
 // const login = async () => {
