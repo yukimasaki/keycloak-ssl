@@ -47,7 +47,12 @@ const endpoints: string[] = [
 
 const runtimeConfig: RuntimeConfig = useRuntimeConfig();
 const apiUlr: string = runtimeConfig.public.apiUrl;
-const token: string | undefined = useNuxtApp().$keycloak.token;
+
+// const token: string | undefined = useNuxtApp().$keycloak.token;
+const { data } = useAuth();
+const token = data.value;
+console.log(token);
+
 
 // issue: iPhone版Chromeだと非ログイン時に/testへアクセスすると、URLに`#error=login_required`が追加されてしまう
 // /welcomeでは上記現象は起きない
