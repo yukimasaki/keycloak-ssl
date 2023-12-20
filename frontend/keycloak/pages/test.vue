@@ -48,21 +48,12 @@ const endpoints: string[] = [
 const runtimeConfig: RuntimeConfig = useRuntimeConfig();
 const apiUlr: string = runtimeConfig.public.apiUrl;
 
-// const token: string | undefined = useNuxtApp().$keycloak.token;
-const { data } = useAuth();
-const token = data.value;
-console.log(token);
-
-
-// issue: iPhone版Chromeだと非ログイン時に/testへアクセスすると、URLに`#error=login_required`が追加されてしまう
-// /welcomeでは上記現象は起きない
-
 const responses = await Promise.all(endpoints.map(async (endpoint) => {
   const { status, error } = await useFetch(`${apiUlr}${endpoint}`, {
     method: 'GET',
-    headers: {
-      authorization: `Bearer ${token ? token : ''}`,
-    },
+    // headers: {
+    //   authorization: `Bearer ${token ? token : ''}`,
+    // },
   });
   const statusCode: number | undefined = status.value === 'success' ? 200 : error.value?.statusCode;
   const response: IResponse = {
@@ -75,9 +66,9 @@ const responses = await Promise.all(endpoints.map(async (endpoint) => {
 }));
 
 const parsedToken: Ref<IAccessToken | null> = ref(null);
-if (token) {
-  parsedToken.value = jwtDecode(token);
-}
+// if (token) {
+//   parsedToken.value = jwtDecode(token);
+// }
 const roles: Ref<string[] | null> = ref(null);
 if (parsedToken.value) {
   roles.value = parsedToken.value.resource_access['nestjs-sample'].roles;
