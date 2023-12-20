@@ -15,8 +15,13 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
   ],
   auth: {
+    isEnabled: true,
+    baseUrl: process.env.AUTH_ORIGIN,
     provider: {
       type: 'authjs'
+    },
+    globalAppMiddleware: {
+      isEnabled: true
     },
   },
 })
