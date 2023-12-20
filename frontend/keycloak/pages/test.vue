@@ -27,6 +27,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  auth: false,
+});
+
 import { jwtDecode } from 'jwt-decode';
 import type { RuntimeConfig } from 'nuxt/schema';
 import type { IAccessToken } from '@@/interfaces/IAccessToken';
