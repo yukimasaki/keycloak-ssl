@@ -1,7 +1,10 @@
 import { NuxtAuthHandler } from '#auth';
+import { Session } from 'next-auth';
+import { Profile } from 'next-auth';
+import { User } from 'next-auth';
+import { Account } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import { Provider } from 'next-auth/providers';
-import { navigateTo } from 'nuxt/app';
-import jwt from 'next-auth/jwt';
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -28,10 +31,40 @@ const keycloakCustomProvider: Provider = {
     }
   },
 }
-
 export default NuxtAuthHandler({
   secret: runtimeConfig.public.authSecret,
   providers: [
     keycloakCustomProvider,
   ],
+  callbacks: {
+    async jwt({ token, account, profile }: {
+      token: JWT,
+      account: Account | null,
+      profile?: Profile | undefined,
+    }) {
+      if (account?.id_token) {
+        token.idToken = account.id_token;
+      }
+      return token;
+    },
+    async session({ session, token, user }: {
+      session: Session,
+      token: JWT,
+      user: User,
+    }) {
+      session.user.idToken = token.idToken;
+      return session;
+    },
+  },
+  events: {
+    signOut: async (message) => {
+      const runtimeConfig = useRuntimeConfig();
+      const issuerUri = runtimeConfig.public.issuer;
+      const authOriginUri = encodeURIComponent(runtimeConfig.public.authOrigin);
+      const idToken = message.token.idToken;
+
+      const signOutUrl = `${issuerUri}/protocol/openid-connect/logout?post_logout_redirect_uri=${authOriginUri}&id_token_hint=${idToken}`;
+      await fetch(signOutUrl);
+    },
+  },
 });

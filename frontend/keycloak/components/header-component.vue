@@ -20,10 +20,7 @@ const login = async () => {
 }
 
 const logout = async () => {
-  return await signOut({
-    redirect: true,
-    callbackUrl: '/api/auth/logout',
-  });
+  return await signOut();
 }
 
 </script>
