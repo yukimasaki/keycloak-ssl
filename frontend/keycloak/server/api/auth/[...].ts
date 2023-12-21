@@ -42,8 +42,9 @@ export default NuxtAuthHandler({
       account: Account | null,
       profile?: Profile | undefined,
     }) {
-      if (account?.id_token) {
+      if (account) {
         token.idToken = account.id_token;
+        token.accessToken = account.access_token;
       }
       return token;
     },
