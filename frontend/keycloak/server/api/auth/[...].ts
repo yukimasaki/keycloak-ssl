@@ -58,7 +58,6 @@ export default NuxtAuthHandler({
   },
   events: {
     signOut: async (message) => {
-      const runtimeConfig = useRuntimeConfig();
       const issuerUri = runtimeConfig.public.issuer;
       const authOriginUri = encodeURIComponent(runtimeConfig.public.authOrigin);
       const idToken = message.token.idToken;
