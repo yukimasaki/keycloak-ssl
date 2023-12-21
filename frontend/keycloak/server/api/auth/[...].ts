@@ -1,6 +1,7 @@
 import { NuxtAuthHandler } from '#auth';
-import { getServerSession } from 'next-auth';
 import { Provider } from 'next-auth/providers';
+import { navigateTo } from 'nuxt/app';
+import jwt from 'next-auth/jwt';
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -33,9 +34,4 @@ export default NuxtAuthHandler({
   providers: [
     keycloakCustomProvider,
   ],
-  events: {
-    async signOut(message) {
-      location.href = `${runtimeConfig.public.issuer}/protocol/openid-connect/logout?redirect_uri=${runtimeConfig.public.authOrigin}`;
-    },
-  },
 });
