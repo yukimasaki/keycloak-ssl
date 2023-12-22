@@ -1,19 +1,20 @@
 import { getToken } from '#auth';
+import { IProfile } from '~/interfaces/IProfile';
 
 export default defineEventHandler(async (event) => {
-  const token = await getToken({ event });
-  const idToken = token?.idToken;
-  // console.log(idToken);
-  const accessToken = token?.accessToken;
-  console.log(accessToken);
+  const runtimeConfig = useRuntimeConfig();
 
-  const response = await fetch('https://api.youmaro.jp/profiles/me', {
+  const token = await getToken({ event });
+  const accessToken = token?.accessToken;
+
+  const response = await fetch(`${runtimeConfig.public.apiUrl}/profiles/me`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   })
-    .then(data => {
-      console.log(data);
+    .then(async (data) => {
+      const profile: IProfile = await data.json();
+      console.log(profile);
     });
 });
