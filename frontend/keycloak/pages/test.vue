@@ -27,6 +27,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  auth: false,
+});
+
 import { jwtDecode } from 'jwt-decode';
 import type { RuntimeConfig } from 'nuxt/schema';
 import type { IAccessToken } from '@@/interfaces/IAccessToken';
@@ -47,21 +51,13 @@ const endpoints: string[] = [
 
 const runtimeConfig: RuntimeConfig = useRuntimeConfig();
 const apiUlr: string = runtimeConfig.public.apiUrl;
-const token: string | undefined = useNuxtApp().$keycloak.token;
 
 const responses = await Promise.all(endpoints.map(async (endpoint) => {
   const { status, error } = await useFetch(`${apiUlr}${endpoint}`, {
     method: 'GET',
-    headers: {
-      authorization: `Bearer ${token ? token : ''}`,
-    },
-    // issue: APIリクエスト前にupdateTokenを実行しているが更新処理が間に合わないのか401が返ってしまう
-    // https://www.keycloak.org/docs/latest/securing_apps/index.html#using-the-adapter
-    async onRequest() {
-      console.log(`リクエストを送信！`);
-      const keycloak = useNuxtApp().$keycloak;
-      await keycloak.updateToken(-1);
-    },
+    // headers: {
+    //   authorization: `Bearer ${token ? token : ''}`,
+    // },
   });
   const statusCode: number | undefined = status.value === 'success' ? 200 : error.value?.statusCode;
   const response: IResponse = {
@@ -74,9 +70,9 @@ const responses = await Promise.all(endpoints.map(async (endpoint) => {
 }));
 
 const parsedToken: Ref<IAccessToken | null> = ref(null);
-if (token) {
-  parsedToken.value = jwtDecode(token);
-}
+// if (token) {
+//   parsedToken.value = jwtDecode(token);
+// }
 const roles: Ref<string[] | null> = ref(null);
 if (parsedToken.value) {
   roles.value = parsedToken.value.resource_access['nestjs-sample'].roles;

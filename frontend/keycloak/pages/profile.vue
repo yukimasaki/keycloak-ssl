@@ -35,29 +35,8 @@ const email: Ref<string | null> = ref(null);
 const userName: Ref<string | null> = ref(null);
 
 // uuidをtokenから取得
-const token: string | undefined = useNuxtApp().$keycloak.token;
-if (token) {
-  const parsedToken: IAccessToken = jwtDecode(token);
-  uuid.value = parsedToken.sub;
-  email.value = parsedToken.email;
-
-  const profile: Ref<IProfile> = useState('profile');
-  if (profile.value) {
-    userName.value = profile.value.userName;
-  }
-}
 
 const submit = async () => {
-  const runtimeConfig = useRuntimeConfig();
-  const apiUrl: string = runtimeConfig.public.apiUrl;
-
-  return await useFetch(`${apiUrl}/profiles`, {
-    method: 'POST',
-    body: {
-      uuid: uuid.value,
-      userName: userName.value,
-    },
-  });
 }
 
 </script>

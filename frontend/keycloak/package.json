@@ -11,7 +11,8 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "nuxt": "^3.8.1",
+    "@sidebase/nuxt-auth": "^0.6.3",
+    "nuxt": "^3.8.2",
     "nuxt-quasar-ui": "^2.0.6",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
@@ -19,7 +20,7 @@
   "dependencies": {
     "@quasar/extras": "^1.16.9",
     "jwt-decode": "^4.0.0",
-    "keycloak-js": "^22.0.5",
+    "next-auth": "4.22.5",
     "quasar": "^2.14.1"
   }
 }
