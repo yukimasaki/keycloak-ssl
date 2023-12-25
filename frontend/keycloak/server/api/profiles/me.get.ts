@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
         keycloakUuid: uuid,
       }
     }
-    return await response.json()
+    return await response.json();
   } catch (error) {
     console.log(error);
   }
