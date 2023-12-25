@@ -12,9 +12,10 @@ export default defineEventHandler(async (event) => {
     const response = await fetch(`${runtimeConfig.public.apiUrl}/profiles`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
       },
-      body,
+      body: JSON.stringify(body),
     });
     return response.json();
   } catch (error) {
