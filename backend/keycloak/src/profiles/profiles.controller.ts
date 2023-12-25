@@ -47,6 +47,10 @@ export class ProfilesController {
   create(
     @Body() createProfileDto: CreateProfileDto,
   ) {
+    console.log(createProfileDto);
+    if (!createProfileDto.userName || !createProfileDto.uuid) {
+      throw new BadRequestException;
+    }
     return this.profilesService.create(createProfileDto);
   }
 
