@@ -1,5 +1,3 @@
-import type { IProfile } from "~/interfaces/IProfile";
-
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const excludePath = [
     '/profile',
