@@ -41,6 +41,15 @@ if (!data.value.errorCode) {
 }
 
 const submit = async () => {
+  const { data } = await useFetch('/api/profiles', {
+    method: 'POST',
+    body: {
+      uuid: uuid.value,
+      userName: userName.value,
+    },
+  });
+  console.log(data.value);
+
 }
 
 </script>
