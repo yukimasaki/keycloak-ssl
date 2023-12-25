@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const token = await getToken({ event });
   const accessToken = token?.accessToken;
 
-  const response = await fetch(`${runtimeConfig.public.apiUrl}/profiles/me`, {
+  const profile = await fetch(`${runtimeConfig.public.apiUrl}/profiles/me`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -15,6 +15,7 @@ export default defineEventHandler(async (event) => {
   })
     .then(async (data) => {
       const profile: IProfile = await data.json();
-      console.log(profile);
+      return profile;
     });
+  return profile;
 });

@@ -9,7 +9,6 @@
 
       <q-card-section>
         <q-input class="q-pb-sm" v-model="uuid" label="Keycloak ID" readonly />
-        <q-input class="q-pb-sm" v-model="email" label="メールアドレス" readonly />
         <q-input class="q-pb-sm" v-model="userName" label="表示名" />
       </q-card-section>
 
@@ -26,15 +25,16 @@
 </template>
 
 <script setup lang="ts">
-import type { IProfile } from '@@/interfaces/IProfile';
-import type { IAccessToken } from '@@/interfaces/IAccessToken';
-import { jwtDecode } from 'jwt-decode';
+import type { IProfile } from '~/interfaces/IProfile';
 
 const uuid: Ref<string | null> = ref(null);
-const email: Ref<string | null> = ref(null);
 const userName: Ref<string | null> = ref(null);
 
-// uuidをtokenから取得
+const { data: profile }: { data: Ref<IProfile> } = await useFetch('/api/profiles/me');
+console.log(profile.value);
+
+uuid.value = profile.value.uuid;
+userName.value = profile.value.userName;
 
 const submit = async () => {
 }
