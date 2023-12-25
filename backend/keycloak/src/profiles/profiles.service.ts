@@ -20,7 +20,6 @@ export class ProfilesService {
     if (!accessToken) throw new BadRequestException;
 
     const keycloakUserId: string = accessToken['sub'];
-    console.log(keycloakUserId);
 
     const profile: Profile = await this.prisma.profile.findUnique({
       where: {
