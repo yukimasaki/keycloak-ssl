@@ -25,16 +25,20 @@
 </template>
 
 <script setup lang="ts">
-import type { IProfile } from '~/interfaces/IProfile';
-
 const uuid: Ref<string | null> = ref(null);
 const userName: Ref<string | null> = ref(null);
 
-const { data: profile }: { data: Ref<IProfile> } = await useFetch('/api/profiles/me');
-console.log(profile.value);
+const { data } = await useFetch('/api/profiles/me');
 
-uuid.value = profile.value.uuid;
-userName.value = profile.value.userName;
+if (data.value.errorCode) {
+  uuid.value = data.value.keycloakUuid;
+}
+
+if (!data.value.errorCode) {
+  useState('profile', () => data.value);
+  uuid.value = data.value.uuid;
+  userName.value = data.value.userName;
+}
 
 const submit = async () => {
 }

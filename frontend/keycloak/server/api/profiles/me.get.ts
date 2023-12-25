@@ -1,21 +1,28 @@
 import { getServerSession } from '#auth';
-import { IProfile } from '~/interfaces/IProfile';
 
 export default defineEventHandler(async (event) => {
-  const runtimeConfig = useRuntimeConfig();
-
   const session = await getServerSession(event);
   const accessToken = session?.user.accessToken;
 
-  const profile = await fetch(`${runtimeConfig.public.apiUrl}/profiles/me`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-    .then(async (data) => {
-      const profile: IProfile = await data.json();
-      return profile;
+  try {
+    const runtimeConfig = useRuntimeConfig();
+    const response = await fetch(`${runtimeConfig.public.apiUrl}/profiles/me`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
-  return profile;
+    if (!response.ok) {
+      const uuid = session?.user.sub;
+
+      return {
+        errorCode: response.status,
+        errorText: response.statusText,
+        keycloakUuid: uuid,
+      }
+    }
+    return await response.json()
+  } catch (error) {
+    console.log(error);
+  }
 });
