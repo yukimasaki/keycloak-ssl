@@ -93,6 +93,14 @@ export default NuxtAuthHandler({
     }) {
       // Initial sign in
       if (account && user) {
+        /** issue: トークン取得に時間がかかる
+         * 下記をコメントアウトするとレスポンスが遅い現象が解消する
+         *  - token.idToken = account.id_token;
+         *  - token.accessToken = account.access_token;
+         *  - token.refreshToken = account.refresh_token;
+         *  適当な文字列を代入しても解消することから、Keycloakとのデータのやり取りに時間がかかっている？
+         *  KeycloakProviderを使えば解消するかもしれないが`not a function`エラーが出る
+         */
         token.idToken = account.id_token;
         // Add access_token, refresh_token and expirations to the token right after signin
         token.accessToken = account.access_token;
