@@ -9,8 +9,9 @@ module.exports = {
       time: true,
       log_date_format: 'YYYY-MM-DD HH:mm Z',
       env: {
-        NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-        AUTH_ORIGIN: process.env.AUTH_ORIGIN,
+        // reason: `process.env`だと読み込めないらしいのでハードコーディングしている
+        NEXTAUTH_URL: `https://app.youmaro.jp`,
+        AUTH_ORIGIN: `https://app.youmaro.jp/api/auth`,
       },
     },
   ],
