@@ -17,6 +17,8 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
   ],
   auth: {
+    // reason: .env (および`ecosystem.config.cjs`)に記載するだけでは`AUTH_NO_ORIGIN`エラーになるため記載している
+    baseURL: process.env.AUTH_ORIGIN,
     provider: {
       type: 'authjs'
     },
