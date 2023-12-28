@@ -1,17 +1,14 @@
-export default async function BooksPage() {
-  type Book = {
-    id: number;
-    title: string;
-  }
+"use client";
 
-  const response = await fetch(`${process.env.API_BASE_URL}/books/public`);
-  const books: Book[] = await response.json();
+import { HeaderComponent } from "@components/header";
+import { FetchBooksComponent } from "./fetchBooks";
+
+export default async function BooksPage() {
 
   return (
-    books.map(book => {
-      return (
-        <div>{book.title}</div>
-      );
-    })
+    <>
+      <HeaderComponent />
+      <FetchBooksComponent />
+    </>
   );
 }
