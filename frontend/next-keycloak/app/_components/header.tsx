@@ -1,3 +1,5 @@
+"use client";
+
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link } from "@nextui-org/react";
 import { LoginButtonComponent } from "@components/loginButton";
 import { LogoutButtonComponent } from "@components/logoutButton";
