@@ -26,7 +26,7 @@ export default function HomePage() {
       <HeaderComponent />
       <div className="flex items-center justify-center p-4">
         <ListboxWrapperComponent>
-          <Listbox>
+          <Listbox variant="faded" aria-label="Listbox menu with icons">
             {pages.map(page => {
               return (
                 <ListboxItem
