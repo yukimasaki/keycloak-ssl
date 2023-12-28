@@ -33,6 +33,12 @@ export const authOptions: NextAuthOptions = {
     }) {
       // Initial sign in
       if (account && user) {
+        token.idToken = account.id_token;
+
+        // Add access_token, refresh_token and expirations to the token right after signin
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token;
+
         token.accessTokenExpired =
           Date.now() + (account.expires_in - 15) * 1000;
         token.refreshTokenExpired =
