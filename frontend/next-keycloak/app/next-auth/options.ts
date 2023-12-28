@@ -1,10 +1,7 @@
 import { Account, NextAuthOptions, Session, User } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import KeycloakProvider from 'next-auth/providers/keycloak';
-import getConfig from 'next/config';
 import { refreshAccessToken } from './utils';
-
-const { serverRuntimeConfig } = getConfig();
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -12,9 +9,9 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     KeycloakProvider({
-      clientId: serverRuntimeConfig.keycloakClientId,
-      clientSecret: serverRuntimeConfig.keycloakClientSecret,
-      issuer: serverRuntimeConfig.keycloakIssuer,
+      clientId: process.env.KEYCLOAK_CLIENT_ID || '',
+      clientSecret: process.env.KEYCLOAK_CLIENT_SECRET || '',
+      issuer: process.env.KEYCLOAK_ISSUER,
     }),
   ],
   callbacks: {
@@ -36,19 +33,6 @@ export const authOptions: NextAuthOptions = {
     }) {
       // Initial sign in
       if (account && user) {
-        console.log(account);
-        /** issue: トークン取得に時間がかかる
-         * 下記をコメントアウトするとレスポンスが遅い現象が解消する
-         *  - token.idToken = account.id_token;
-         *  - token.accessToken = account.access_token;
-         *  - token.refreshToken = account.refresh_token;
-         *  適当な文字列を代入すると解消することから、デコードに時間がかかっている？
-         *  余談：KeycloakProviderを使えば解消するかもしれないが`not a function`エラーが出る
-         */
-        // token.idToken = `eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJoYWg4STkxUWlBRURqbGNhd1J2eVQ0bHY0SEx2eFRvVzFZdTVNU0tOcjJZIn0.eyJleHAiOjE3MDM2NjY4NzgsImlhdCI6MTcwMzY2NjU3OCwiYXV0aF90aW1lIjoxNzAzNjY2NTc4LCJqdGkiOiJmMzQ5Y2UwMi05ZjcwLTRiODAtYjZiNC1hNTllNTY0YjYxMmEiLCJpc3MiOiJodHRwczovL2F1dGgueW91bWFyby5qcC9yZWFsbXMvc2FtcGxlIiwiYXVkIjoibnV4dC1zYW1wbGUiLCJzdWIiOiJiM2Q3YTliYy1iZjIxLTQ5ZDMtYTdmOC1iMTViODVkNjllYTQiLCJ0eXAiOiJJRCIsImF6cCI6Im51eHQtc2FtcGxlIiwic2Vzc2lvbl9zdGF0ZSI6IjI2Y2M4NTVmLWI3M2UtNGYyYS1iZmQ2LTg3OWE5MWYyNmQzNCIsImF0X2hhc2giOiJyRmtfcGRvQ2QzaGVaaklsNGU1WFVnIiwiYWNyIjoiMSIsInNpZCI6IjI2Y2M4NTVmLWI3M2UtNGYyYS1iZmQ2LTg3OWE5MWYyNmQzNCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20ifQ.IDSPxxfAr5DiuCZywCTWSSknt36B93YPIkkAHYryy5qbNOgR7kw8y0uXAq8zgvtNBpdgiceIs6KOyVwHxjbDf6-hvL4ExF8QnBav2aQLft_-xacfshKbs_-USGJb8hSpBFo1bvgH2gQOYYP08eKUjvyefAh-Su13fs4J1Bh6vICmZeVst5dxA54gmiTfHMGvij3iFpdqIb6-aySI3xRo_f3eZRNh-lumlaZn2E57IIOo2YcgZyF7eS6kJws0kY3s_k-DxZiQ8j8LENr_BvVKI1ZM4Bn-KMMJrHL3MJOuMD0yY70hCcTPoiSjE_FAMS2hXXfDcayfgLqEQw98ehG-hA`;
-        // Add access_token, refresh_token and expirations to the token right after signin
-        // token.accessToken = `eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJoYWg4STkxUWlBRURqbGNhd1J2eVQ0bHY0SEx2eFRvVzFZdTVNU0tOcjJZIn0.eyJleHAiOjE3MDM2NjY4NzgsImlhdCI6MTcwMzY2NjU3OCwiYXV0aF90aW1lIjoxNzAzNjY2NTc4LCJqdGkiOiJlOTQ1Y2RlZC01YWM1LTRhZDYtODk4NC1jYTI2M2E3ZjY2ZGUiLCJpc3MiOiJodHRwczovL2F1dGgueW91bWFyby5qcC9yZWFsbXMvc2FtcGxlIiwiYXVkIjpbIm5lc3Rqcy1zYW1wbGUiLCJhY2NvdW50Il0sInN1YiI6ImIzZDdhOWJjLWJmMjEtNDlkMy1hN2Y4LWIxNWI4NWQ2OWVhNCIsInR5cCI6IkJlYXJlciIsImF6cCI6Im51eHQtc2FtcGxlIiwic2Vzc2lvbl9zdGF0ZSI6IjI2Y2M4NTVmLWI3M2UtNGYyYS1iZmQ2LTg3OWE5MWYyNmQzNCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9hcHAueW91bWFyby5qcCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1zYW1wbGUiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwic2FtcGxlLXVzZXIiXX0sInJlc291cmNlX2FjY2VzcyI6eyJuZXN0anMtc2FtcGxlIjp7InJvbGVzIjpbInVzZXIiXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJzaWQiOiIyNmNjODU1Zi1iNzNlLTRmMmEtYmZkNi04NzlhOTFmMjZkMzQiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicHJlZmVycmVkX3VzZXJuYW1lIjoidXNlcjFAZXhhbXBsZS5jb20iLCJlbWFpbCI6InVzZXIxQGV4YW1wbGUuY29tIn0.KqmU4FinSvZCxx2wqSCUU77u7GhZeYhkMOnUN-1FA6zXMczEpcaOjjLr_yYE9QEVNwCVp0jb2tfA7kGWiObopBMItYkq7Sphi7Kqi394sPT1n8URiX1r88jFBnZPNvpYi_K_jjUmGa1KgV_kujwY7V9AZXUP-0zp8gCmgL-KDForG6ZUfW1kGpREjLgwK4FLJgzfZrmwcPzY5nD6Y8ksEKLrm-zS8cvzotuOSYm5ONmBB4Mnu7Sw5xGEXKYU4PPpBmjJQC1yOhqYLzQYvxTbqGPKPDdTOMYkkSm7wUX2FsZ9ADSa4qsHCuL2-BJEwkENWQEyKOw0bnf-7YizQca-ww`;
-        // token.refreshToken = `eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI2NDQ4YTVkOS0zNmYzLTRmY2QtYTA3Yi1hN2FkMDI5MDc2MzQifQ.eyJleHAiOjE3MDM3MDI1NzgsImlhdCI6MTcwMzY2NjU3OCwianRpIjoiNDI1OTE4MDktNTk4Zi00NTYxLThhY2UtY2I4NTAzNWY4OTQwIiwiaXNzIjoiaHR0cHM6Ly9hdXRoLnlvdW1hcm8uanAvcmVhbG1zL3NhbXBsZSIsImF1ZCI6Imh0dHBzOi8vYXV0aC55b3VtYXJvLmpwL3JlYWxtcy9zYW1wbGUiLCJzdWIiOiJiM2Q3YTliYy1iZjIxLTQ5ZDMtYTdmOC1iMTViODVkNjllYTQiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoibnV4dC1zYW1wbGUiLCJzZXNzaW9uX3N0YXRlIjoiMjZjYzg1NWYtYjczZS00ZjJhLWJmZDYtODc5YTkxZjI2ZDM0Iiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInNpZCI6IjI2Y2M4NTVmLWI3M2UtNGYyYS1iZmQ2LTg3OWE5MWYyNmQzNCJ9.XV-U5YuElXuBJM8aDQ67OY42uOXuFoeyzb2BVyEYtbk`;
         token.accessTokenExpired =
           Date.now() + (account.expires_in - 15) * 1000;
         token.refreshTokenExpired =
@@ -66,8 +50,8 @@ export const authOptions: NextAuthOptions = {
   },
   events: {
     signOut: async (message) => {
-      const issuerUri = serverRuntimeConfig.keycloakIssuer;
-      const authOriginUri = encodeURIComponent(serverRuntimeConfig.nextAuthUrl);
+      const issuerUri = process.env.KEYCLOAK_ISSUER;
+      const authOriginUri = encodeURIComponent(process.env.NEXTAUTH_URL || '');
       const idToken = message.token.idToken;
 
       const signOutUrl = `${issuerUri}/protocol/openid-connect/logout?post_logout_redirect_uri=${authOriginUri}&id_token_hint=${idToken}`;

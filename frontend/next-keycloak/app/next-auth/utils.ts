@@ -1,14 +1,11 @@
 import { JWT } from 'next-auth/jwt';
-import getConfig from 'next/config';
-
-const { serverRuntimeConfig } = getConfig();
 
 export const refreshAccessToken = async (token: JWT): Promise<JWT> => {
   try {
     if (Date.now() > token.refreshTokenExpired) throw Error;
     const details = {
-      client_id: serverRuntimeConfig.keycloakClientId,
-      client_secret: serverRuntimeConfig.keycloakClientSecret,
+      client_id: process.env.KEYCLOAK_CLIENT_ID,
+      client_secret: process.env.KEYCLOAK_CLIENT_SECRET,
       grant_type: ['refresh_token'],
       refresh_token: token.refreshToken,
     }
@@ -19,7 +16,7 @@ export const refreshAccessToken = async (token: JWT): Promise<JWT> => {
       formBody.push(encodedKey + '=' + encodedValue);
     });
     const formData = formBody.join('&');
-    const url = `${serverRuntimeConfig.keycloakIssuer}/protocol/openid-connect/token`;
+    const url = `${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/token`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {
