@@ -15,17 +15,6 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token }: {
-      session: Session,
-      token: JWT,
-    }) {
-      if (token) {
-        session.user = token.user;
-        session.error = token.error;
-        session.user.accessToken = token.accessToken;
-      }
-      return session;
-    },
     async jwt({ token, user, account }: {
       token: JWT,
       user: User,
@@ -52,6 +41,17 @@ export const authOptions: NextAuthOptions = {
 
       // Access token has expired, try to update it
       return refreshAccessToken(token);
+    },
+    async session({ session, token }: {
+      session: Session,
+      token: JWT,
+    }) {
+      if (token) {
+        session.user = token.user;
+        session.error = token.error;
+        session.user.accessToken = token.accessToken;
+      }
+      return session;
     },
   },
   events: {
