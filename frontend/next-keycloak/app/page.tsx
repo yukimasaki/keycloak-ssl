@@ -24,6 +24,11 @@ export default function HomePage() {
       path: "/profile",
       icon: GroupsIcon({ className: iconClasses }),
     },
+    {
+      name: "Books",
+      path: "/books",
+      icon: GroupsIcon({ className: iconClasses }),
+    },
   ];
 
   return (
