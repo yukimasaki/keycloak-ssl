@@ -23,11 +23,11 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ],
       "@components/*": [
         "./app/_components/*"
+      ],
+      "@common/*": [
+        "./app/_common/*"
       ],
     }
   },
