@@ -1,9 +1,9 @@
 "use client";
 
 import { HeaderComponent } from "@components/header";
+import { saveProfile } from "@components/profile";
 import { Button, Card, CardBody, CardFooter, CardHeader, Input, Skeleton } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
@@ -21,24 +21,26 @@ export default function ProfilePage() {
               <p>プロフィール設定</p>
             </Skeleton>
           </CardHeader>
-          <CardBody className="space-y-3">
-            <Skeleton isLoaded={isLoaded} className="rounded-xl">
-              <Input value={user?.id || ''} type="text" label="ユーザーID" disabled />
-            </Skeleton>
-            <Skeleton isLoaded={isLoaded} className="rounded-xl">
-              <Input value={user?.email || ''} type="email" label="メールアドレス" />
-            </Skeleton>
-            <Skeleton isLoaded={isLoaded} className="rounded-xl">
-              <Input value={user?.preferred_username || ''} type="text" label="ユーザー名" />
-            </Skeleton>
-          </CardBody>
-          <CardFooter>
-            <Skeleton isLoaded={isLoaded} className="rounded-xl">
-              <Button as={Link} color="primary" href="#" variant="flat">
-                保存
-              </Button>
-            </Skeleton>
-          </CardFooter>
+          <form action={saveProfile}>
+            <CardBody className="space-y-3">
+              <Skeleton isLoaded={isLoaded} className="rounded-xl">
+                <Input value={user?.id || ''} name="userId" type="text" label="ユーザーID" readOnly />
+              </Skeleton>
+              <Skeleton isLoaded={isLoaded} className="rounded-xl">
+                <Input value={user?.email || ''} name="email" type="email" label="メールアドレス" />
+              </Skeleton>
+              <Skeleton isLoaded={isLoaded} className="rounded-xl">
+                <Input defaultValue="" name="userName" type="text" label="ユーザー名" />
+              </Skeleton>
+            </CardBody>
+            <CardFooter>
+              <Skeleton isLoaded={isLoaded} className="rounded-xl">
+                <Button type="submit" color="primary" variant="flat">
+                  保存
+                </Button>
+              </Skeleton>
+            </CardFooter>
+          </form>
         </Card>
       </div>
     </>
