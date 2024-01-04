@@ -1,14 +1,14 @@
 "use client";
 
 import { HeaderComponent } from "@components/header";
-import { FetchBooksComponent } from "./fetchBooks";
+import { BookListComponent } from "@components/bookList";
 
 export default function BooksPage() {
 
   return (
     <>
       <HeaderComponent />
-      <FetchBooksComponent />
+      <BookListComponent />
     </>
   );
 }

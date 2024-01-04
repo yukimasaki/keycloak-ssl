@@ -1,7 +1,7 @@
 import { ListboxWrapperComponent } from "@components/listBoxWrapper";
 import { Listbox, ListboxItem } from "@nextui-org/react";
 
-export const FetchBooksComponent = async () => {
+export const BookListComponent = async () => {
   type Book = {
     id: number;
     title: string;
