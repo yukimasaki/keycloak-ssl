@@ -9,7 +9,7 @@ export const HeaderComponent = () => {
   const { data: session } = useSession();
   const user = session?.user;
 
-  const isLoaded = user ? true : false;
+  const isLoaded = session ? true : false;
 
   return (
     <Navbar className="shadow">
