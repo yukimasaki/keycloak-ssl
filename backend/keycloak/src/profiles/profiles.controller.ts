@@ -36,7 +36,6 @@ export class ProfilesController {
   }
 
   @Post()
-  @Public()
   @ApiProduces('application/json; charset=utf-8')
   @ApiOperation({ summary: '単体作成API' })
   @ApiResponse({
