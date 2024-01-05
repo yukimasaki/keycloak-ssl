@@ -1,8 +1,8 @@
-"use client";
+"use server";
 
 import { HeaderComponent } from "@components/header";
 
-export default function TestPage() {
+const TestPage = async () => {
   return (
     <>
       <HeaderComponent />
@@ -12,3 +12,5 @@ export default function TestPage() {
     </>
   );
 }
+
+export default TestPage;
