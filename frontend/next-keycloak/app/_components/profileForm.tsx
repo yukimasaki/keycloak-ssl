@@ -55,9 +55,31 @@ export const ProfileFormComponent = ({
           </CardHeader>
           <form action={upsertProfile}>
             <CardBody className="space-y-3">
-              <Input value={state.userId} onChange={handleChange} name="userId" type="text" label="ユーザーID" readOnly />
-              <Input value={state.email} onChange={handleChange} name="email" type="email" label="メールアドレス" isClearable onClear={clearEmail} />
-              <Input value={state.userName} onChange={handleChange} name="userName" type="text" label="ユーザー名" isClearable onClear={clearUserName} />
+              <Input
+                value={state.userId}
+                onChange={handleChange}
+                name="userId"
+                type="text"
+                label="ユーザーID"
+                readOnly />
+
+              <Input
+                value={state.email}
+                onChange={handleChange}
+                name="email"
+                type="email"
+                label="メールアドレス"
+                isClearable
+                onClear={clearEmail} />
+
+              <Input
+                value={state.userName}
+                onChange={handleChange}
+                name="userName"
+                type="text"
+                label="ユーザー名"
+                isClearable
+                onClear={clearUserName} />
             </CardBody>
             <CardFooter>
               <Button type="submit" color="primary" variant="flat">
