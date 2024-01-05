@@ -1,14 +1,19 @@
-"use client";
+"use server";
 
-import { HeaderComponent } from "@components/header";
+import { Book } from "@common/types/books";
 import { BookListComponent } from "@components/bookList";
+import { HeaderComponent } from "@components/header";
 
-export default function BooksPage() {
+const FetchBooksComponent = async () => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/books/public`);
+  const books: Book[] = await response.json();
 
   return (
     <>
       <HeaderComponent />
-      <BookListComponent />
+      <BookListComponent books={books} />
     </>
   );
 }
+
+export default FetchBooksComponent;

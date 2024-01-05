@@ -1,15 +1,14 @@
+"use client";
+
+import { Book } from "@common/types/books";
 import { ListboxWrapperComponent } from "@components/listBoxWrapper";
 import { Listbox, ListboxItem } from "@nextui-org/react";
 
-export const BookListComponent = async () => {
-  type Book = {
-    id: number;
-    title: string;
-  }
-
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/books/public`);
-  const books: Book[] = await response.json();
-
+export const BookListComponent = async ({
+  books,
+}: {
+  books: Book[],
+}) => {
   return (
     <>
       <div className="flex items-center justify-center p-4">
@@ -18,7 +17,7 @@ export const BookListComponent = async () => {
             {books.map(book => {
               return (
                 <ListboxItem
-                  key={book.title}
+                  key={book.id}
                 >
                   {book.title}
                 </ListboxItem>
