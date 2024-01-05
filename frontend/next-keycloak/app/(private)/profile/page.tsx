@@ -8,10 +8,20 @@ import { Profile } from "@common/types/profile";
 
 const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
+
+  // ユーザー名をDBから取得
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/profiles/me`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${session?.user.accessToken}`,
+    },
+  });
+  const { userName }: { userName: string } = await response.json();
+
   const profile: Profile = {
     userId: session?.user.id || "",
     email: session?.user.email || "",
-    userName: session?.user.preferred_username || "",
+    userName: userName || "",
   }
 
   return (
