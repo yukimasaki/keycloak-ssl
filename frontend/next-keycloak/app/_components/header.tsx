@@ -1,15 +1,14 @@
-"use client";
+"use server";
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Skeleton } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link } from "@nextui-org/react";
 import { LoginButtonComponent } from "@components/loginButton";
 import { LogoutButtonComponent } from "@components/logoutButton";
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@common/next-auth/options";
 
-export const HeaderComponent = () => {
-  const { data: session } = useSession();
+export const HeaderComponent = async () => {
+  const session = await getServerSession(authOptions);
   const user = session?.user;
-
-  const isLoaded = session ? true : false;
 
   return (
     <Navbar className="shadow">
@@ -22,9 +21,7 @@ export const HeaderComponent = () => {
       </NavbarBrand>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Skeleton isLoaded={isLoaded} className="rounded-xl">
-            {!user ? <LoginButtonComponent /> : <LogoutButtonComponent />}
-          </Skeleton>
+          {!user ? <LoginButtonComponent /> : <LogoutButtonComponent />}
         </NavbarItem>
       </NavbarContent>
     </Navbar>
