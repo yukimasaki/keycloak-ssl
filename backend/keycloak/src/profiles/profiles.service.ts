@@ -45,6 +45,28 @@ export class ProfilesService {
     }
   }
 
+  async upsert(
+    upsertProfileDto: CreateProfileDto | UpdateProfileDto,
+  ) {
+    try {
+      const profile: Profile = await this.prisma.profile.upsert({
+        where: {
+          uuid: upsertProfileDto.uuid,
+        },
+        update: {
+          userName: upsertProfileDto.userName,
+        },
+        create: {
+          uuid: upsertProfileDto.uuid,
+          userName: upsertProfileDto.userName,
+        },
+      });
+      return profile;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   findAll() {
     return `This action returns all profiles`;
   }

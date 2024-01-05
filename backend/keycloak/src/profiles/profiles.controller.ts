@@ -37,19 +37,24 @@ export class ProfilesController {
 
   @Post()
   @ApiProduces('application/json; charset=utf-8')
-  @ApiOperation({ summary: '単体作成API' })
+  @ApiOperation({ summary: '単体作成・単体更新API' })
+  @ApiResponse({
+    status: 200,
+    description: '更新済みのプロフィール情報を返却',
+    type: Profile,
+  })
   @ApiResponse({
     status: 201,
     description: '登録済みのプロフィール情報を返却',
     type: Profile,
   })
-  create(
-    @Body() createProfileDto: CreateProfileDto,
+  upsert(
+    @Body() upsertProfileDto: CreateProfileDto | UpdateProfileDto,
   ) {
-    if (!createProfileDto.userName || !createProfileDto.uuid) {
+    if (!upsertProfileDto.userName || !upsertProfileDto.uuid) {
       throw new BadRequestException;
     }
-    return this.profilesService.create(createProfileDto);
+    return this.profilesService.upsert(upsertProfileDto);
   }
 
   @Get()
