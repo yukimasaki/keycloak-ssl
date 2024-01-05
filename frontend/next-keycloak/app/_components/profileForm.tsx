@@ -3,12 +3,49 @@
 import { Profile } from "@common/types/profile";
 import { saveProfile } from "@components/_actions/profile";
 import { Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
+import React, { useState } from "react";
 
 export const ProfileFormComponent = ({
   profile,
 }: {
   profile: Profile,
 }) => {
+  const [state, setState] = useState<Record<string, string>>(profile);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setState((prevalue) => {
+      return {
+        ...prevalue,
+        [name]: value,
+      }
+    });
+  }
+
+  const clearEmail = (
+  ) => {
+    setState((prevalue) => {
+      return {
+        ...prevalue,
+        email: "",
+      }
+    });
+  }
+
+  const clearUserName = (
+  ) => {
+    setState((prevalue) => {
+      return {
+        ...prevalue,
+        userName: "",
+      }
+    });
+  }
+
   return (
     <>
       <div className="flex items-center justify-center p-4">
@@ -18,9 +55,9 @@ export const ProfileFormComponent = ({
           </CardHeader>
           <form action={saveProfile}>
             <CardBody className="space-y-3">
-              <Input value={profile.userId} name="userId" type="text" label="ユーザーID" readOnly />
-              <Input value={profile.email} name="email" type="email" label="メールアドレス" isClearable />
-              <Input value={profile.userName} name="userName" type="text" label="ユーザー名" isClearable />
+              <Input value={state.userId} onChange={handleChange} name="userId" type="text" label="ユーザーID" readOnly />
+              <Input value={state.email} onChange={handleChange} name="email" type="email" label="メールアドレス" isClearable onClear={clearEmail} />
+              <Input value={state.userName} onChange={handleChange} name="userName" type="text" label="ユーザー名" isClearable onClear={clearUserName} />
             </CardBody>
             <CardFooter>
               <Button type="submit" color="primary" variant="flat">
