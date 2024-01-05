@@ -3,7 +3,7 @@
 import { authOptions } from "@common/next-auth/options";
 import { getServerSession } from "next-auth";
 
-export const saveProfile = async (
+export const upsertProfile = async (
   formData: FormData,
 ) => {
   const session = await getServerSession(authOptions);

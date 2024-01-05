@@ -1,7 +1,7 @@
 "use client";
 
 import { Profile } from "@common/types/profile";
-import { saveProfile } from "@components/_actions/profile";
+import { upsertProfile } from "@components/_actions/profile";
 import { Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 
@@ -53,7 +53,7 @@ export const ProfileFormComponent = ({
           <CardHeader className="flex gap-3">
             <p>プロフィール設定</p>
           </CardHeader>
-          <form action={saveProfile}>
+          <form action={upsertProfile}>
             <CardBody className="space-y-3">
               <Input value={state.userId} onChange={handleChange} name="userId" type="text" label="ユーザーID" readOnly />
               <Input value={state.email} onChange={handleChange} name="email" type="email" label="メールアドレス" isClearable onClear={clearEmail} />
