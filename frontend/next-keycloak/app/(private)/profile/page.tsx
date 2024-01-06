@@ -19,7 +19,7 @@ const ProfilePage = async () => {
   const { userName }: { userName: string } = await response.json();
 
   const profile: Profile = {
-    userId: session?.user.id || "",
+    uuid: session?.user.id || "",
     email: session?.user.email || "",
     userName: userName || "",
   }
