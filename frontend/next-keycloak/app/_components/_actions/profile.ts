@@ -50,7 +50,7 @@ export const upsertProfile = async (
     });
   } catch (error) {
     return {
-      message: `入力内容に誤りがあります。`
+      message: `入力内容に誤りがあります`
     }
   }
   return {
