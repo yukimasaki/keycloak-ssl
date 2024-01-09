@@ -27,21 +27,6 @@ export const ProfileFormComponent = ({
   const [email, setEmail] = useState<string>(profile.email);
   const [userName, setUserName] = useState<string>(profile.userName);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    switch (e.target.name) {
-      case "email":
-        setEmail(e.target.value);
-        break;
-      case "userName":
-        setUserName(e.target.value);
-        break;
-      default:
-        console.log("key not found");
-    }
-  }
-
   return (
     <>
       <div className="flex items-center justify-center p-4">
