@@ -56,7 +56,8 @@ export const ProfileFormComponent = ({
                 name="uuid"
                 value={uuid}
                 type="text"
-                readOnly />
+                readOnly
+              />
 
               <Input
                 label="メールアドレス"
@@ -68,6 +69,7 @@ export const ProfileFormComponent = ({
                   validateEmailAction(e.target.value);
                 }}
                 onChange={handleChange}
+                onClear={() => setEmail("")}
                 isClearable
               />
               {
@@ -85,6 +87,7 @@ export const ProfileFormComponent = ({
                   validateUserNameAction(e.target.value);
                 }}
                 onChange={handleChange}
+                onClear={() => setUserName("")}
                 isClearable
               />
               {
