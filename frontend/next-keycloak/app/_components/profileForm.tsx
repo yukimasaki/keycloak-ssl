@@ -1,49 +1,41 @@
 "use client";
 
 import { Profile } from "@common/types/profile";
-import { upsertProfile } from "@components/_actions/profile";
+import { upsertProfile, validateBeforeSubmit } from "@components/_actions/profile";
 import { Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
 import React, { useState } from "react";
+import { useFormState } from "react-dom";
 
 export const ProfileFormComponent = ({
   profile,
 }: {
   profile: Profile,
 }) => {
-  const [state, setState] = useState<Record<string, string>>(profile);
+  const [messageAfterSubmit, formAction] = useFormState(upsertProfile, {
+    message: null,
+  });
+
+  const [userNameValidateState, validateUserNameAction] = useFormState(validateBeforeSubmit, {
+    message: null,
+  });
+
+  const uuid = profile.uuid;
+  const [email, setEmail] = useState<string>(profile.email);
+  const [userName, setUserName] = useState<string>(profile.userName);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setState((prevalue) => {
-      return {
-        ...prevalue,
-        [name]: value,
-      }
-    });
-  }
-
-  const clearEmail = (
-  ) => {
-    setState((prevalue) => {
-      return {
-        ...prevalue,
-        email: "",
-      }
-    });
-  }
-
-  const clearUserName = (
-  ) => {
-    setState((prevalue) => {
-      return {
-        ...prevalue,
-        userName: "",
-      }
-    });
+    switch (e.target.name) {
+      case "email":
+        setEmail(e.target.value);
+        break;
+      case "userName":
+        setUserName(e.target.value);
+        break;
+      default:
+        console.log("key not found");
+    }
   }
 
   return (
@@ -53,38 +45,52 @@ export const ProfileFormComponent = ({
           <CardHeader className="flex gap-3">
             <p>プロフィール設定</p>
           </CardHeader>
-          <form action={upsertProfile}>
+          <form action={formAction}>
             <CardBody className="space-y-3">
               <Input
-                value={state.userId}
-                onChange={handleChange}
-                name="userId"
-                type="text"
                 label="ユーザーID"
+                name="uuid"
+                value={uuid}
+                type="text"
                 readOnly />
 
               <Input
-                value={state.email}
-                onChange={handleChange}
-                name="email"
-                type="email"
                 label="メールアドレス"
+                name="email"
+                value={email}
+                type="email"
+                onChange={handleChange}
                 isClearable
-                onClear={clearEmail} />
+              />
 
               <Input
-                value={state.userName}
-                onChange={handleChange}
-                name="userName"
-                type="text"
                 label="ユーザー名"
+                name="userName"
+                value={userName}
+                type="text"
+                onBlur={(e) => {
+                  if (!(e.target instanceof HTMLInputElement)) return;
+                  validateUserNameAction(e.target.value);
+                }}
+                onChange={handleChange}
                 isClearable
-                onClear={clearUserName} />
+              />
+              {
+                userNameValidateState.message &&
+                <p className="text-red-500">{userNameValidateState.message}</p>
+              }
             </CardBody>
             <CardFooter>
-              <Button type="submit" color="primary" variant="flat">
-                保存
-              </Button>
+              <div className="space-y-2">
+                <Button type="submit" color="primary" variant="flat">
+                  保存
+                </Button>
+                {
+                  messageAfterSubmit.message &&
+                  <p className="text-red-500">{messageAfterSubmit.message}</p>
+                }
+
+              </div>
             </CardFooter>
           </form>
         </Card>
