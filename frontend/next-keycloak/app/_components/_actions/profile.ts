@@ -1,6 +1,7 @@
 "use server";
 
 import { authOptions } from "@common/next-auth/options";
+import { ServerActionResult } from "@common/types/server-actions";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from 'zod';
 
@@ -23,7 +24,7 @@ export const upsertProfile = async (
     message: string | null,
   },
   formData: FormData,
-) => {
+): Promise<ServerActionResult> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
 
@@ -49,13 +50,19 @@ export const upsertProfile = async (
       },
     });
   } catch (error) {
-    return {
-      message: `入力内容に誤りがあります`
+    const result: ServerActionResult = {
+      ok: false,
+      message: `入力内容に誤りがあります`,
     }
+    return result;
   }
-  return {
-    message: null,
+
+  // 成功時
+  const result: ServerActionResult = {
+    ok: true,
+    message: "保存しました",
   }
+  return result;
 }
 
 export const validateOnBlurEmail = async (

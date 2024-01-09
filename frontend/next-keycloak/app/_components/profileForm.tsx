@@ -12,6 +12,7 @@ export const ProfileFormComponent = ({
   profile: Profile,
 }) => {
   const [messageAfterSubmit, formAction] = useFormState(upsertProfile, {
+    ok: null,
     message: null,
   });
 
@@ -98,7 +99,7 @@ export const ProfileFormComponent = ({
                 </Button>
                 {
                   messageAfterSubmit.message &&
-                  <p className="text-red-500">{messageAfterSubmit.message}</p>
+                  <p className={messageAfterSubmit.ok ? "text-green-500" : "text-red-500"}>{messageAfterSubmit.message}</p>
                 }
 
               </div>
