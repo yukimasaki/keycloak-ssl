@@ -64,11 +64,14 @@ export const ProfileFormComponent = ({
                 name="email"
                 value={email}
                 type="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  validateEmailAction(e.target.value);
+                }}
                 onBlur={(e) => {
                   if (!(e.target instanceof HTMLInputElement)) return;
                   validateEmailAction(e.target.value);
                 }}
-                onChange={handleChange}
                 onClear={() => setEmail("")}
                 isClearable
               />
@@ -82,11 +85,14 @@ export const ProfileFormComponent = ({
                 name="userName"
                 value={userName}
                 type="text"
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                  validateUserNameAction(e.target.value);
+                }}
                 onBlur={(e) => {
                   if (!(e.target instanceof HTMLInputElement)) return;
                   validateUserNameAction(e.target.value);
                 }}
-                onChange={handleChange}
                 onClear={() => setUserName("")}
                 isClearable
               />
@@ -97,7 +103,12 @@ export const ProfileFormComponent = ({
             </CardBody>
             <CardFooter>
               <div className="space-y-2">
-                <Button type="submit" color="primary" variant="flat">
+                <Button
+                  type="submit"
+                  color="primary"
+                  variant="flat"
+                  isDisabled={!!emailValidateState.message || !!userNameValidateState.message}
+                >
                   保存
                 </Button>
                 {
