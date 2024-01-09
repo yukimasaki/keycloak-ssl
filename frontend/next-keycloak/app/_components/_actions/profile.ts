@@ -4,10 +4,18 @@ import { authOptions } from "@common/next-auth/options";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from 'zod';
 
-const upsertProfileSchema = z.object({
+const UpsertProfileSchema = z.object({
   uuid: z.string().uuid(),
-  email: z.string().email(),
-  userName: z.string().min(1).max(255),
+  email: z.string().email({ message: "メールアドレスを入力してください" }),
+  userName: z.string().min(1, { message: "1文字以上入力してください" }).max(255, { message: "255文字以内で入力してください" }),
+});
+
+const EmailSchema = UpsertProfileSchema.pick({
+  email: true,
+});
+
+const UserNameSchema = UpsertProfileSchema.pick({
+  userName: true,
 });
 
 export const upsertProfile = async (
@@ -30,7 +38,7 @@ export const upsertProfile = async (
   }
 
   try {
-    upsertProfileSchema.parse(profile);
+    UpsertProfileSchema.parse(profile);
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/profiles`, {
       method: "POST",
@@ -41,8 +49,6 @@ export const upsertProfile = async (
       },
     });
   } catch (error) {
-    console.log(error);
-
     return {
       message: `入力内容に誤りがあります。`
     }
@@ -52,17 +58,40 @@ export const upsertProfile = async (
   }
 }
 
-export const validateBeforeSubmit = async (
+export const validateOnBlurEmail = async (
   prevState: {
     message: string | null,
   },
   value: string,
 ) => {
   try {
-    console.log(value);
+    EmailSchema.parse({
+      email: value,
+    });
+    return {
+      message: null,
+    }
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        message: error.errors[0].message,
+      }
+    } else {
+      return {
+        message: null,
+      }
+    }
+  }
+}
 
-    upsertProfileSchema.parse({
-      // issue: undefinedが返っているようだが原因不明
+export const validateOnBlurUserName = async (
+  prevState: {
+    message: string | null,
+  },
+  value: string,
+) => {
+  try {
+    UserNameSchema.parse({
       userName: value,
     });
     return {
@@ -70,11 +99,13 @@ export const validateBeforeSubmit = async (
     }
   } catch (error) {
     if (error instanceof ZodError) {
-      console.log(error.errors[0].path);
-    }
-
-    return {
-      message: "userNameに誤りがあります。"
+      return {
+        message: error.errors[0].message,
+      }
+    } else {
+      return {
+        message: null,
+      }
     }
   }
 }

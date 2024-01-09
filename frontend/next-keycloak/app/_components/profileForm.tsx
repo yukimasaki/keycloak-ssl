@@ -1,7 +1,7 @@
 "use client";
 
 import { Profile } from "@common/types/profile";
-import { upsertProfile, validateBeforeSubmit } from "@components/_actions/profile";
+import { upsertProfile, validateOnBlurEmail, validateOnBlurUserName } from "@components/_actions/profile";
 import { Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 import { useFormState } from "react-dom";
@@ -15,7 +15,11 @@ export const ProfileFormComponent = ({
     message: null,
   });
 
-  const [userNameValidateState, validateUserNameAction] = useFormState(validateBeforeSubmit, {
+  const [emailValidateState, validateEmailAction] = useFormState(validateOnBlurEmail, {
+    message: null,
+  });
+
+  const [userNameValidateState, validateUserNameAction] = useFormState(validateOnBlurUserName, {
     message: null,
   });
 
@@ -59,9 +63,17 @@ export const ProfileFormComponent = ({
                 name="email"
                 value={email}
                 type="email"
+                onBlur={(e) => {
+                  if (!(e.target instanceof HTMLInputElement)) return;
+                  validateEmailAction(e.target.value);
+                }}
                 onChange={handleChange}
                 isClearable
               />
+              {
+                emailValidateState.message &&
+                <p className="text-red-500">{emailValidateState.message}</p>
+              }
 
               <Input
                 label="ユーザー名"
