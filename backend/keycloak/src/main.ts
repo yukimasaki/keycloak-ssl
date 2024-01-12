@@ -12,7 +12,10 @@ async function bootstrap() {
 
   // CORS設定
   app.enableCors({
-    origin: process.env.CORS_ORIGIN,
+    origin: [
+      process.env.CORS_ORIGIN_1,
+      process.env.CORS_ORIGIN_2,
+    ],
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     credentials: true,
   });
