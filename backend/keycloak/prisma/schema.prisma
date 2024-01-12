@@ -17,6 +17,7 @@ model Profile {
 }
 
 model Book {
-  id    Int    @id @default(autoincrement())
-  title String
+  id     Int    @id @default(autoincrement())
+  title  String
+  author String @default("")
 }
