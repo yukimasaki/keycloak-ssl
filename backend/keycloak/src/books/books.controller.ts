@@ -15,18 +15,12 @@ export class BooksController {
   @Get('/public')
   @Public()
   @ApiProduces('application/json; charset=utf-8')
-  @ApiOperation({ summary: '単体取得API (パブリックアクセス)' })
+  @ApiOperation({ summary: '全件取得API (パブリックアクセス)' })
   @ApiResponse({
     status: 200,
     description: '全ての書籍情報を返却する',
     type: Book,
   })
-  findAllFromPublic() {
-    return this.booksService.findAll();
-  }
-
-  @Get('public/page')
-  @Public()
   findByPage(
     @Query() query: {
       page: string;
