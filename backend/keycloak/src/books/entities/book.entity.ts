@@ -12,4 +12,10 @@ export class Book {
     description: '作品名',
   })
   title: string;
+
+  @ApiProperty({
+    example: '宮沢 賢治',
+    description: '著者',
+  })
+  author: string;
 }
