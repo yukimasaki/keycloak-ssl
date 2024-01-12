@@ -25,6 +25,13 @@ export class BooksController {
     return this.booksService.findAll();
   }
 
+  @Get('public/page')
+  @Public()
+  findByPage(
+  ) {
+    return this.booksService.findByPage();
+  }
+
   @Get('/all')
   @Roles({
     roles: [

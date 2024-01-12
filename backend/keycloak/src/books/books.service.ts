@@ -15,6 +15,16 @@ export class BooksService {
     return books;
   }
 
+  async findByPage(
+  ) {
+    const books = await this.prisma.client.book.paginate({
+      page: 1,
+      perPage: 10,
+    });
+
+    return books;
+  }
+
   async create(
     createBookDto: CreateBookDto,
   ) {
