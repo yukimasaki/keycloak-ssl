@@ -10,7 +10,7 @@ export class BooksService {
   ) { }
 
   async findAll() {
-    const books: Book[] = await this.prisma.book.findMany();
+    const books: Book[] = await this.prisma.client.book.findMany();
     if (books.length === 0) throw new NotFoundException;
     return books;
   }
@@ -18,7 +18,7 @@ export class BooksService {
   async create(
     createBookDto: CreateBookDto,
   ) {
-    const book: Book = await this.prisma.book.create({
+    const book: Book = await this.prisma.client.book.create({
       data: createBookDto,
     });
     if (!book) throw new BadRequestException;
