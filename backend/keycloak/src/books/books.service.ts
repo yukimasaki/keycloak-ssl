@@ -15,11 +15,16 @@ export class BooksService {
     return books;
   }
 
-  async findByPage(
-  ) {
+  async findByPage({
+    page,
+    perPage,
+  }: {
+    page: number,
+    perPage: number,
+  }) {
     const books = await this.prisma.client.book.paginate({
-      page: 1,
-      perPage: 10,
+      page,
+      perPage,
     });
 
     return books;

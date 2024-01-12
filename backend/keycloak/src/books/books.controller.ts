@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { ApiOperation, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SummarizeApiResponse } from 'src/common/decorators/summarize-api-response.decorator';
@@ -28,8 +28,15 @@ export class BooksController {
   @Get('public/page')
   @Public()
   findByPage(
+    @Query() query: {
+      page: string;
+      perPage: string;
+    },
   ) {
-    return this.booksService.findByPage();
+    return this.booksService.findByPage({
+      page: +query.page,
+      perPage: +query.perPage,
+    });
   }
 
   @Get('/all')
