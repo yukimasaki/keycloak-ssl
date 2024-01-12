@@ -21,7 +21,7 @@ export class ProfilesService {
 
     const keycloakUserId: string = accessToken['sub'];
 
-    const profile: Profile = await this.prisma.profile.findUnique({
+    const profile: Profile = await this.prisma.client.profile.findUnique({
       where: {
         uuid: keycloakUserId,
       },
@@ -36,7 +36,7 @@ export class ProfilesService {
     createProfileDto: CreateProfileDto,
   ) {
     try {
-      const profile: Profile = await this.prisma.profile.create({
+      const profile: Profile = await this.prisma.client.profile.create({
         data: createProfileDto,
       });
       return profile;
@@ -49,7 +49,7 @@ export class ProfilesService {
     upsertProfileDto: CreateProfileDto | UpdateProfileDto,
   ) {
     try {
-      const profile: Profile = await this.prisma.profile.upsert({
+      const profile: Profile = await this.prisma.client.profile.upsert({
         where: {
           uuid: upsertProfileDto.uuid,
         },
@@ -72,7 +72,7 @@ export class ProfilesService {
   }
 
   async findOne(uuid: string) {
-    const profile: Profile = await this.prisma.profile.findUnique({
+    const profile: Profile = await this.prisma.client.profile.findUnique({
       where: {
         uuid,
       }
