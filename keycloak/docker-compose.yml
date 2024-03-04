@@ -1,8 +1,8 @@
-version: '3'
+version: "3"
 
 volumes:
   keycloak-postgres_data:
-      driver: local
+    driver: local
 
 services:
   keycloak-postgres:
@@ -20,7 +20,7 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
     ports:
-      - '5432:5432'
+      - "5432:5432"
     restart: always
 
   keycloak:
@@ -46,24 +46,24 @@ services:
       KC_DB_URL_DATABASE: keycloak
       #KC_DB_URL: 'jdbc:postgresql://postgres:5432/keycloak'
       KC_LOG_LEVEL: ERROR,org.infinispan:DEBUG,org.jgroups:DEBUG
-      TZ: 'Asia/Tokyo' # タイムゾーン
+      TZ: "Asia/Tokyo" # タイムゾーン
       # KC_HTTP_RELATIVE_PATH: '/auth' # 管理コンソールのパス。デフォルトでは「/」のため、v16 利用時と合わせたい場合に指定する
-      KC_HEALTH_ENABLED: 'true' # ヘルスチェック URL の有効化
-      KC_HTTP_ENABLED: 'true' # HTTP の待ち受け
-      KC_HOSTNAME_STRICT: 'false'
+      KC_HEALTH_ENABLED: "true" # ヘルスチェック URL の有効化
+      KC_HTTP_ENABLED: "true" # HTTP の待ち受け
+      KC_HOSTNAME_STRICT: "false"
       # see https://www.keycloak.org/server/hostname#_accessing_keycloak_in_production_mode_using_http
-      KC_HOSTNAME_STRICT_HTTPS: 'false'
+      KC_HOSTNAME_STRICT_HTTPS: "false"
       # see https://www.keycloak.org/server/hostname#_backend_endpoints
-      KC_HOSTNAME_STRICT_BACKCHANNEL: 'true'
+      KC_HOSTNAME_STRICT_BACKCHANNEL: "true"
       # see https://www.keycloak.org/server/reverseproxy
-      KC_PROXY: 'edge'
+      KC_PROXY: "edge"
       # see https://www.keycloak.org/server/features#_supported_features
-      KC_FEATURES: 'token-exchange'
-      PROXY_ADDRESS_FORWARDING: 'true'
+      KC_FEATURES: "token-exchange"
+      PROXY_ADDRESS_FORWARDING: "true"
     command:
-      - 'start'
+      - "start"
     ports:
-      - '8080:8080'
+      - "8080:8080"
     depends_on:
       - keycloak-postgres
     restart: always
