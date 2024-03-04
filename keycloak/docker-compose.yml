@@ -58,7 +58,7 @@ services:
       # see https://www.keycloak.org/server/reverseproxy
       KC_PROXY: "edge"
       # see https://www.keycloak.org/server/features#_supported_features
-      KC_FEATURES: "token-exchange"
+      KC_FEATURES: "token-exchange,declarative-user-profile"
       PROXY_ADDRESS_FORWARDING: "true"
     command:
       - "start"
